@@ -17,7 +17,7 @@ Phase 2: Core Functionality
 [] Implement alarm system testing with verification.
 
 Phase 3: Database Integration
-[] Add SQL support using SQLite.
+[] Add SQL or JSON support using SQLite or Nhlmann.
 [] Ensure data persistence between program runs.
 [] Allow database type selection at initialization.
 
