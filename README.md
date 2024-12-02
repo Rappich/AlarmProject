@@ -2,7 +2,7 @@
 
 **Overview**
 This project involves creating a modular console application for a security company to manage and simulate alarm systems. 
-The program integrates with both SQL and NoSQL databases and allows for functionality such as customer registration, alarm testing, and user activity simulation.
+The program integrates with either SQL or NoSQL databases and allows for functionality such as customer registration, alarm testing, and user activity simulation.
 
 **Development To-Do List**
 Phase 1: Setup
