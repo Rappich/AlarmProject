@@ -5,6 +5,7 @@ This project involves creating a modular console application for a security comp
 The program integrates with either SQL or NoSQL databases and allows for functionality such as customer registration, alarm testing, and user activity simulation.
 
 **Development To-Do List**
+https://prod.liveshare.vsengsaas.visualstudio.com/join?F670F176C85669B6289A59CF11ACC50E7482
 Phase 1: Setup
 [] Create the project structure.
 [] Define models for customers, users, alarm systems, and components.
