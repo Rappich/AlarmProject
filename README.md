@@ -33,19 +33,19 @@ Security, performance:
 **Development To-Do List**
 https://prod.liveshare.vsengsaas.visualstudio.com/join?F670F176C85669B6289A59CF11ACC50E7482
 Phase 1: Setup
-[] Create the project structure.
-[] Define models for customers, users, alarm systems, and components.
-[] Implement a database interface and NoSQL functionality (JSON).
+[x] Create the project structure.
+[x] Define models for customers, users, alarm systems, and components.
+[ongoing] Implement a database interface and NoSQL functionality (JSON).
 
 Phase 2: Core Functionality
-[] Build the user interface (console-based).
-[] Enable customer and alarm system registration.
-[] Add functionality to register alarm components.
-[] Implement alarm system testing with verification.
+[ongoing] Build the user interface (console-based).
+[ongoing] Enable customer and alarm system registration.
+[ongoing] Add functionality to register alarm components.
+[ongoing] Implement alarm system testing with verification.
 
 Phase 3: Database Integration
-[] Add SQL or JSON support using SQLite or Nhlmann.
-[] Ensure data persistence between program runs.
+[ongoing] Add SQL or JSON support using SQLite or Nhlmann.
+[ongoing] Ensure data persistence between program runs.
 [] Allow database type selection at initialization.
 
 Phase 4: Advanced Features (Optional)
