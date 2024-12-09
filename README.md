@@ -51,15 +51,15 @@ The program supports the following functionalities:
 ### Phase 3: Database Integration
 - [ongoing] Add SQL or JSON support using SQLite or Nlohmann.
 - [ongoing] Ensure data persistence between program runs.
-- [ ] Allow database type selection at initialization.
 
 ### Phase 4: Advanced Features (Optional)
 - [ ] Simulate customer interactions (alarm activation/deactivation).
 - [ ] Log user activities with timestamps.
 - [ ] Add advanced database queries and reports.
+- [ ] Allow database type selection at initialization.
 
 ---
 
 ## Collaboration
 To join the development session, use the following link:  
-[Live Share Session](https://prod.liveshare.vsengsaas.visualstudio.com/join?F670F176C85669B6289A59CF11ACC50E7482)
+[Live Share Session]([https://prod.liveshare.vsengsaas.visualstudio.com/join?F670F176C85669B6289A59CF11ACC50E7482](https://prod.liveshare.vsengsaas.visualstudio.com/join?6F09CB583395D62299B3AC1D6F05ADE05F8A))
