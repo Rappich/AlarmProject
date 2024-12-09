@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 {
     "customers": 
     {
@@ -98,4 +99,106 @@
       }
     }
   }
+=======
+{
+    "customers": 
+    {
+      "1": 
+      {
+        "customerId": 1,
+        "name": "John Doe",
+        "alarmSystems": 
+        [
+          {
+            "address": "123 Main Street",
+            "users": 
+            [
+              {
+                "userId": 101,
+                "keyCode": 1234,
+                "rfid": "RFID123ABC",
+                "securityPhrase": "MySecurePhrase"
+              },
+              {
+                "userId": 102,
+                "keyCode": 5678,
+                "rfid": "RFID456DEF",
+                "securityPhrase": "AnotherSecurePhrase"
+              }
+            ],
+            "alarmComponents": [
+              {
+                "type": "Smoke Detector",
+                "productName": "SD-2000",
+                "componentId": 1
+              },
+              {
+                "type": "Window Sensor",
+                "productName": "WS-3000",
+                "componentId": 2
+              }
+            ]
+          }
+        ]
+      },
+      "2": 
+      {
+        "customerId": 2,
+        "name": "Acme Corporation",
+        "alarmSystems": 
+        [
+          {
+            "address": "456 Business Ave",
+            "users": 
+            [
+              {
+                "userId": 201,
+                "keyCode": 4321,
+                "rfid": "RFID789GHI",
+                "securityPhrase": "CorporateSecure"
+              }
+            ],
+            "alarmComponents": 
+            [
+              {
+                "type": "Door Switch",
+                "name": "DS-100",
+                "componentId": 3
+              },
+              {
+                "type": "Smoke Detector",
+                "productName": "SD-2000",
+                "componentId": 4
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "users": 
+    {
+      "101": 
+      {
+        "userId": 101,
+        "keyCode": 1234,
+        "rfid": "RFID123ABC",
+        "securityPhrase": "MySecurePhrase"
+      },
+      "102": 
+      {
+        "userId": 102,
+        "keyCode": 5678,
+        "rfid": "RFID456DEF",
+        "securityPhrase": "AnotherSecurePhrase"
+      },
+      "201": 
+      {
+        "userId": 201,
+        "keyCode": 4321,
+        "rfid": "RFID789GHI",
+        "securityPhrase": "CorporateSecure"
+      }
+    }
+  }
+>>>>>>> master
   
