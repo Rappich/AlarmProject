@@ -249,7 +249,7 @@ void addCustomer()
             cout << "Which of the following Customers would you like to add a user to: " << endl;
             for(const auto& pair : Customers)
                 int i = 1;
-                cout << i << ". " << newCustomer. << endl;
+                cout << i << ". " << newCustomer.name << endl;
                 i++;
             }
             cin >> choice;
