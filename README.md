@@ -62,4 +62,4 @@ The program supports the following functionalities:
 
 ## Collaboration
 To join the development session, use the following link:  
-[Live Share Session]([https://prod.liveshare.vsengsaas.visualstudio.com/join?F670F176C85669B6289A59CF11ACC50E7482](https://prod.liveshare.vsengsaas.visualstudio.com/join?6F09CB583395D62299B3AC1D6F05ADE05F8A))
+[Live Share Session](https://prod.liveshare.vsengsaas.visualstudio.com/join?6F09CB583395D62299B3AC1D6F05ADE05F8A)
