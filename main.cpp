@@ -46,12 +46,12 @@ void addCustomer();
 void modifyCustomer();
 void deleteCustomer(); 
 void showMenu();
-
+int currentCustomerID = 1;
+int currentUserID = 1;
 int main() 
 {
     loadData();
-    int currentCustomerID = 1;
-    int currentUserID = 1;
+    
 
     int choice;
     do
@@ -128,7 +128,7 @@ void loadData()
                 alarmComponents.push_back(AlarmComponent
                 {
                     component["type"],
-                    component["name"],
+                    component["ProductName"],
                     component["componentId"]
                 });
             }
@@ -232,12 +232,12 @@ void saveData()
 void addCustomer()
 {
 
-
+    Customer newCustomer;
     cout << "Do you want to add a completly new customer or just a user?\n";
     cout << "1. Add a new user\n";
     cout << "2. Add a new customer\n";
     cout << "3. Add both customer & user\n";
-
+    int choice;
     int menuChoice;
     cin >> menuChoice;
     cin.ignore();
@@ -245,10 +245,10 @@ void addCustomer()
     {
 
         case 1: // user
-            int choice;
+            
+            int i = 1;
             cout << "Which of the following Customers would you like to add a user to: " << endl;
             for(const auto& pair : Customers)
-                int i = 1;
                 cout << i << ". " << newCustomer.name << endl;
                 i++;
             }
@@ -263,20 +263,23 @@ void addCustomer()
             cout << "RFID: ";
             getline(cin, newUser.rfid);
 
-            Customers[choice].push_back(newUser);
-            Customers[choice] = (newUser);
-            std::cout << "User added successfully with UserID " << newUser.userID << ".\n";
+            Customer& customer = Customers[choice];
+            if (!customer.alarmSystem.empty()) 
+            {
+                customer.alarmSystem[0].users.push_back(newUser);
+            }
+            cout << "User added successfully with UserID " << newUser.userID << ".\n";
             break;
 
         case 2:
 
-            Customer newCustomer;
+            
             cout << "Enter Customer details:\n";
-            cout << "Customer ID: " << newCustomer.customerID = currentCustomerID++ <<std::endl;
-            cout << "Write the customers first and last name / Company name: " << std::endl;
+            cout << "Customer ID: " << newCustomer.customerID = currentCustomerID++ << endl;
+            cout << "Write the customers first and last name / Company name: " << endl;
             getline(cin, newCustomer.name);
             Customers.emplace(newCustomer);
-            Customers[newCustomer.customerID] = (newCustomer);
+            Customers[newCustomer.customerID] = newCustomer;
             cout << "Customer added successfully.\n";
             break;
 
@@ -288,7 +291,7 @@ void addCustomer()
     }
 
 
-void displayCustomersAndUsers();
+void displayCustomersAndUsers()
 {
     if (Customers.empty()) 
     {
@@ -383,7 +386,7 @@ void modifyCustomer()
 void deleteCustomer()
 {
 int customerID, userID;
-    cout << "Enter the Customer ID to delete a user from: ";
+    cout << "Enter the Customer ID to delete: ";
     cin >> customerID;
 
     auto customerIt = Customers.find(customerID);
@@ -408,6 +411,11 @@ int customerID, userID;
             }
         }
 
+        if (alarmSystem.users.empty()) {
+        customer.alarmSystem.erase(remove(customer.alarmSystem.begin(), customer.alarmSystem.end(), 
+        alarmSystem), customer.alarmSystem.end());
+            }
+
         if (!userDeleted) 
         {
             cout << "User with ID " << userID << " not found for Customer ID " << customerID << ".\n";
@@ -420,5 +428,3 @@ int customerID, userID;
     }
 }
 
- 
->>>>>>> master
