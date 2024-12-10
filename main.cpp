@@ -231,8 +231,6 @@ void saveData()
 
 void addCustomer()
 {
-
-    Customer newCustomer;
     cout << "Do you want to add a completly new customer or just a user?\n";
     cout << "1. Add a new user\n";
     cout << "2. Add a new customer\n";
@@ -243,7 +241,8 @@ void addCustomer()
     cin.ignore();
  switch (menuChoice) 
  {
-    case 1: { // Adding a user
+    case 1: 
+    {
         int i = 1;
         cout << "Which of the following Customers would you like to add a user to:\n";
         
@@ -278,7 +277,6 @@ void addCustomer()
         {
             customer.alarmSystem[0].users.push_back(newUser); 
         }
-
         cout << "User added successfully with UserID " << newUser.userID << ".\n";
         break;
     }
@@ -298,14 +296,42 @@ void addCustomer()
         cout << "Customer added successfully.\n";
         break;
     }
+       case 3:
+    {
+        Customer newCustomer;
+        newCustomer.customerID = currentCustomerID++;
+        cout << "Enter Customer Name: ";
+        getline(cin, newCustomer.name);
+
+        AlarmSystem newAlarmSystem;
+        cout << "Enter Alarm System Address: ";
+        getline(cin, newAlarmSystem.address);
+
+        User newUser;
+        newUser.userID = currentUserID++;
+        cout << "Enter User Key Code: ";
+        cin >> newUser.keyCode;
+        cin.ignore();
+        cout << "Enter User RFID: ";
+        getline(cin, newUser.rfid);
+        cout << "Enter User Security Phrase: ";
+        getline(cin, newUser.securityPhrase);
+
+        newAlarmSystem.users.push_back(newUser);
+
+        newCustomer.alarmSystem.push_back(newAlarmSystem);
+
+        Customers[newCustomer.customerID] = newCustomer;
+
+        cout << "Customer and user added successfully!\n";
+        break;
+    }
 
     default:
         cout << "Invalid option. Please try again.\n";
         break;
  }
 }
-
-    
 
 
 void displayCustomersAndUsers()
