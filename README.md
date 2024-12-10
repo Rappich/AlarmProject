@@ -44,7 +44,7 @@ The program supports the following functionalities:
 
 ### Phase 2: Core Functionality
 - [x] Build the user interface (console-based).
-- [Ongoing] Enable customer and alarm system registration.
+- [x] Enable customer and alarm system registration.
 - [Ongoing] Add functionality to register alarm components.
 
 ### Phase 3: Database Integration
