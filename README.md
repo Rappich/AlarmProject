@@ -40,17 +40,17 @@ The program supports the following functionalities:
 ### Phase 1: Setup
 - [x] Create the project structure.
 - [x] Define models for customers, users, alarm systems, and components.
-- [ongoing] Implement a database interface and NoSQL functionality (JSON).
+- [x] Implement a database interface and NoSQL functionality (JSON).
 
 ### Phase 2: Core Functionality
-- [ongoing] Build the user interface (console-based).
-- [ongoing] Enable customer and alarm system registration.
-- [ongoing] Add functionality to register alarm components.
-- [ongoing] Implement alarm system testing with verification.
+- [x] Build the user interface (console-based).
+- [x] Enable customer and alarm system registration.
+- [x] Add functionality to register alarm components.
+- [x] Implement alarm system testing with verification.
 
 ### Phase 3: Database Integration
-- [ongoing] Add SQL or JSON support using SQLite or Nlohmann.
-- [ongoing] Ensure data persistence between program runs.
+- [x] Add SQL or JSON support using SQLite or Nlohmann.
+- [x] Ensure data persistence between program runs.
 
 ### Phase 4: Advanced Features (Optional)
 - [ ] Simulate customer interactions (alarm activation/deactivation).
