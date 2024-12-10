@@ -5,7 +5,7 @@ This project involves creating a modular console application for a security comp
 
 ---
 
-## Software Requirements Specification (SRS)
+## Software Requirements Specification
 
 ### 1.3 Intended Use
 **Purpose**:  
@@ -44,9 +44,8 @@ The program supports the following functionalities:
 
 ### Phase 2: Core Functionality
 - [x] Build the user interface (console-based).
-- [x] Enable customer and alarm system registration.
-- [x] Add functionality to register alarm components.
-- [x] Implement alarm system testing with verification.
+- [Ongoing] Enable customer and alarm system registration.
+- [Ongoing] Add functionality to register alarm components.
 
 ### Phase 3: Database Integration
 - [x] Add SQL or JSON support using SQLite or Nlohmann.
