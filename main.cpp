@@ -3,6 +3,7 @@
 #include <vector>
 #include "json.hpp"
 #include <map>
+#include <algorithm>
 
 using json = nlohmann::json;
 using namespace std;
@@ -43,7 +44,7 @@ void loadData();
 void saveData();
 void displayCustomersAndUsers();
 void addCustomer();
-void modifyCustomer();
+/* void modifyCustomer(); */
 void deleteCustomer(); 
 void showMenu();
 int currentCustomerID = 1;
@@ -69,7 +70,7 @@ int main()
             addCustomer();
             break;
         case 3:
-            modifyCustomer();
+/*             modifyCustomer(); */
             break;
         case 4:
             deleteCustomer();
@@ -87,10 +88,9 @@ return 0;
 
 }
 
-void loadData()
-{
+void loadData() {
     ifstream file(dataFilePath);
-    if (!file)
+    if (!file) 
     {
         cout << "No existing data file found. Starting with an empty database.\n";
         return;
@@ -99,13 +99,14 @@ void loadData()
     json jsonData;
     file >> jsonData;
 
-        for (const auto& item : jsonData) 
-        {
+    int maxCustomerID = 0;
+    int maxUserID = 0;
+
+    for (const auto& item : jsonData) {
         int customerId = item["customerId"];
         string customerName = item["name"];
 
         vector<AlarmSystem> alarmSystems;
-
         for (const auto& alarmSystem : item["alarmSystems"]) 
         {
             string address = alarmSystem["address"];
@@ -113,43 +114,48 @@ void loadData()
             vector<User> users;
             for (const auto& user : alarmSystem["users"]) 
             {
-                users.push_back(User
-                {
-                    user["userId"],
+                int userId = user["userId"];
+                users.push_back(User{
+                    userId,
                     user["keyCode"],
                     user["rfid"],
                     user["securityPhrase"]
                 });
+
+                maxUserID = max(maxUserID, userId);
             }
 
             vector<AlarmComponent> alarmComponents;
-            for (const auto& component : alarmSystem["alarmComponents"]) 
-            {
-                alarmComponents.push_back(AlarmComponent
-                {
+            for (const auto& component : alarmSystem["alarmComponents"]) {
+                alarmComponents.push_back(AlarmComponent{
                     component["type"],
-                    component["ProductName"],
+                    component["productName"],
                     component["componentId"]
                 });
             }
 
-            alarmSystems.push_back(AlarmSystem
-            {
+            alarmSystems.push_back(AlarmSystem{
                 address,
                 users,
                 alarmComponents
             });
         }
-        Customers.emplace(customerId, Customer
-        {
+
+        Customers.emplace(customerId, Customer{
             customerId,
             customerName,
             alarmSystems
         });
+
+        maxCustomerID = max(maxCustomerID, customerId);
     }
+
+    currentCustomerID = maxCustomerID + 1;
+    currentUserID = maxUserID + 1;
 
     cout << "Data successfully loaded from " << dataFilePath << ".\n";
 }
+
 
 
 void showMenu()
@@ -229,83 +235,78 @@ void saveData()
 
 
 
-void addCustomer()
+void addCustomer() 
 {
-    cout << "Do you want to add a completly new customer or just a user?\n";
-    cout << "1. Add a new user\n";
+    cout << "Do you want to add a completely new customer or just a user?\n";
+    cout << "1. Add a new user to an existing customer\n";
     cout << "2. Add a new customer\n";
-    cout << "3. Add both customer & user\n";
-    int choice;
+    cout << "3. Add both customer and user\n";
     int menuChoice;
     cin >> menuChoice;
-    cin.ignore();
- switch (menuChoice) 
- {
+    cin.ignore(); 
+
+    switch (menuChoice) 
+    {
     case 1: 
     {
-        int i = 1;
         cout << "Which of the following Customers would you like to add a user to:\n";
-        
+
         for (const auto& pair : Customers) 
         {
-            cout << i << ". " << pair.second.name << endl;
-            i++;
+            cout << pair.first << ". " << pair.second.name << endl;
         }
 
-        int choice;
-        cin >> choice;
-        cin.ignore();
+        int customerID;
+        cin >> customerID;
+        cin.ignore(); 
+        auto it = Customers.find(customerID);
+        if (it == Customers.end()) 
+        {
+            cout << "Invalid Customer ID. Please try again.\n";
+            break;
+        }
 
-        if (choice < 1 || choice > Customers.size()) 
+        Customer& customer = it->second;
+
+        if (customer.alarmSystem.empty()) 
+        {
+            cout << "No alarm systems available for this customer. Would you like to add one? (y/n): ";
+            char choice;
+            cin >> choice;
+            cin.ignore(); 
+
+            if (choice == 'y' || choice == 'Y') 
+            {
+                AlarmSystem newAlarmSystem;
+                cout << "Enter Alarm System Address: ";
+                getline(cin, newAlarmSystem.address);
+
+                customer.alarmSystem.push_back(newAlarmSystem);
+                cout << "Alarm system added successfully.\n";
+            } else 
+            {
+                cout << "No alarm system added. Returning to menu.\n";
+                break;
+            }
+        }
+
+        cout << "Select an Alarm System by index:\n";
+        for (int i = 0; i < customer.alarmSystem.size(); ++i) 
+        {
+            cout << i + 1 << ". Address: " << customer.alarmSystem[i].address << endl;
+        }
+
+        int alarmIndex;
+        cin >> alarmIndex;
+        cin.ignore(); 
+
+        if (alarmIndex < 1 || alarmIndex > customer.alarmSystem.size()) 
         {
             cout << "Invalid choice. Please try again.\n";
             break;
         }
 
-        User newUser;
-        newUser.userID = currentUserID++;
-        
-        cout << "Enter User details:\n";
-        cout << "Key Code: ";
-        cin >> newUser.keyCode;
-        cin.ignore();
-        cout << "RFID: ";
-        getline(cin, newUser.rfid);
-
-        Customer& customer = Customers[choice];
-        if (!customer.alarmSystem.empty()) 
-        {
-            customer.alarmSystem[0].users.push_back(newUser); 
-        }
-        cout << "User added successfully with UserID " << newUser.userID << ".\n";
-        break;
-    }
-
-    case 2: 
-    {
-        Customer newCustomer;
-        
-        cout << "Enter Customer details:\n";
-        newCustomer.customerID = currentCustomerID++;
-        cout << "Customer ID: " << newCustomer.customerID << endl;
-
-        cout << "Write the customer's first and last name / Company name: ";
-        getline(cin, newCustomer.name);
-
-        Customers.emplace(newCustomer.customerID, newCustomer);
-        cout << "Customer added successfully.\n";
-        break;
-    }
-       case 3:
-    {
-        Customer newCustomer;
-        newCustomer.customerID = currentCustomerID++;
-        cout << "Enter Customer Name: ";
-        getline(cin, newCustomer.name);
-
-        AlarmSystem newAlarmSystem;
-        cout << "Enter Alarm System Address: ";
-        getline(cin, newAlarmSystem.address);
+        AlarmSystem& selectedAlarmSystem = customer.alarmSystem[alarmIndex - 1];
 
         User newUser;
         newUser.userID = currentUserID++;
@@ -317,20 +318,57 @@ void addCustomer()
         cout << "Enter User Security Phrase: ";
         getline(cin, newUser.securityPhrase);
 
-        newAlarmSystem.users.push_back(newUser);
-
-        newCustomer.alarmSystem.push_back(newAlarmSystem);
-
-        Customers[newCustomer.customerID] = newCustomer;
-
-        cout << "Customer and user added successfully!\n";
+        selectedAlarmSystem.users.push_back(newUser);
+        cout << "User added successfully with UserID " << newUser.userID << ".\n";
         break;
+}
+        case 2: 
+        {
+            Customer newCustomer;
+            newCustomer.customerID = currentCustomerID++;
+            cout << "Enter Customer Name: ";
+            getline(cin, newCustomer.name);
+
+            Customers[newCustomer.customerID] = newCustomer;
+            cout << "Customer added successfully with ID " << newCustomer.customerID << ".\n";
+            break;
+        }
+
+        case 3: 
+        {
+            Customer newCustomer;
+            newCustomer.customerID = currentCustomerID++;
+            cout << "Enter Customer Name: ";
+            getline(cin, newCustomer.name);
+
+            AlarmSystem newAlarmSystem;
+            cout << "Enter Alarm System Address: ";
+            getline(cin, newAlarmSystem.address);
+
+            User newUser;
+            newUser.userID = currentUserID++;
+            cout << "Enter User Key Code: ";
+            cin >> newUser.keyCode;
+            cin.ignore();
+
+            cout << "Enter User RFID: ";
+            getline(cin, newUser.rfid);
+            cout << "Enter User Security Phrase: ";
+            getline(cin, newUser.securityPhrase);
+
+            newAlarmSystem.users.push_back(newUser);
+            newCustomer.alarmSystem.push_back(newAlarmSystem);
+
+            Customers[newCustomer.customerID] = newCustomer;
+
+            cout << "Customer and user added successfully!\n";
+            break;
+        }
+
+        default:
+            cout << "Invalid option. Please try again.\n";
+            break;
     }
-
-    default:
-        cout << "Invalid option. Please try again.\n";
-        break;
- }
 }
 
 
@@ -372,7 +410,7 @@ void displayCustomersAndUsers()
 }
 
 
-void modifyCustomer()
+/* void modifyCustomer()
 {
     int customerID;
     cout << "Enter the Customer ID to modify: ";
@@ -424,52 +462,77 @@ void modifyCustomer()
     {
         cout << "No Customer found with ID " << customerID << ".\n";
     }
-}
+} */
 
 void deleteCustomer() 
 {
-    int customerID, userID;
-    cout << "Enter the Customer ID to delete: ";
+    int customerID;
+    cout << "Enter the Customer ID to delete or manage: ";
     cin >> customerID;
 
     auto customerIt = Customers.find(customerID);
-    if (customerIt != Customers.end()) 
+    if (customerIt == Customers.end()) 
     {
-        Customer& customer = customerIt->second;
-
-        cout << "Enter the User ID to delete: ";
-        cin >> userID;
-
-        bool userDeleted = false;
-
-        for (auto it = customer.alarmSystem.begin(); it != customer.alarmSystem.end(); ) 
-        {
-            auto& alarmSystem = *it;
-
-            auto userIt = find_if(alarmSystem.users.begin(), alarmSystem.users.end(),
-                [userID](const User& user) { return user.userID == userID; });
-
-            if (userIt != alarmSystem.users.end()) 
-            {
-                alarmSystem.users.erase(userIt);
-                userDeleted = true;
-                cout << "User with ID " << userID << " deleted successfully.\n";
-            }
-
-            if (alarmSystem.users.empty()) 
-            {
-                it = customer.alarmSystem.erase(it);
-            } else {
-                ++it;
-            }
-        }
-
-        if (!userDeleted) {
-            cout << "User with ID " << userID << " not found for Customer ID " << customerID << ".\n";
-        }
-    } else {
         cout << "Customer with ID " << customerID << " not found.\n";
+        return;
+    }
+
+    cout << "Do you want to delete:\n";
+    cout << "1. The entire customer\n";
+    cout << "2. A specific user from the customer\n";
+    int choice;
+    cin >> choice;
+
+    switch (choice) 
+    {
+        case 1: 
+        { 
+            Customers.erase(customerIt);
+            cout << "Customer with ID " << customerID << " deleted successfully.\n";
+            break;
+        }
+
+        case 2: 
+        {
+            Customer& customer = customerIt->second;
+
+            cout << "Enter the User ID to delete: ";
+            int userID;
+            cin >> userID;
+
+            bool userDeleted = false;
+
+            for (auto it = customer.alarmSystem.begin(); it != customer.alarmSystem.end(); ) 
+            {
+                auto& alarmSystem = *it;
+
+                auto userIt = find_if(alarmSystem.users.begin(), alarmSystem.users.end(),
+                    [userID](const User& user) { return user.userID == userID; });
+
+                if (userIt != alarmSystem.users.end()) 
+                {
+                    alarmSystem.users.erase(userIt);
+                    userDeleted = true;
+                    cout << "User with ID " << userID << " deleted successfully.\n";
+                }
+
+                if (alarmSystem.users.empty()) 
+                {
+                    it = customer.alarmSystem.erase(it);
+                } else {
+                    ++it;
+                }
+            }
+
+            if (!userDeleted) 
+            {
+                cout << "User with ID " << userID << " not found for Customer ID " << customerID << ".\n";
+            }
+            break;
+        }
+
+        default:
+            cout << "Invalid choice. Returning to menu.\n";
+            break;
     }
 }
-
-
